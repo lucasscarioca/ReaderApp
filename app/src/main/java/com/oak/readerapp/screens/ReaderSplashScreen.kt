@@ -19,6 +19,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.oak.readerapp.components.ReaderLogo
 import com.oak.readerapp.navigation.ReaderScreens
 import kotlinx.coroutines.delay
 
@@ -44,40 +45,29 @@ fun SplashScreen(navController: NavController) {
         navController.navigate(ReaderScreens.LoginScreen.name)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .background(Color.Black.copy(alpha = 0.9f)),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
         Surface(
             modifier = Modifier
                 .padding(15.dp)
                 .size(330.dp)
                 .scale(scale.value),
             shape = CircleShape,
-            color = Color.LightGray.copy(alpha = 0.2f),
-            border = BorderStroke(width = 2.dp, color = Color.LightGray.copy(alpha = 0.1f))
+            color = Color.White,
+            border = BorderStroke(width = 2.dp, color = Color.LightGray)
         ) {
             Column(
                 modifier = Modifier.padding(1.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "Reader App",
-                    style = MaterialTheme.typography.h3,
-                    color = Color.White.copy(alpha = 0.7f)
-                )
+                ReaderLogo()
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
                     text = "\"Read. Change. Yourself \"",
                     style = MaterialTheme.typography.h5,
-                    color = Color.White.copy(alpha = 0.5f)
+                    color = Color.LightGray
                 )
             }
         }
-    }
+
 }
+
