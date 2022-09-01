@@ -8,6 +8,7 @@ import com.oak.readerapp.screens.SplashScreen
 import com.oak.readerapp.screens.home.HomeScreen
 import com.oak.readerapp.screens.login.LoginScreen
 import com.oak.readerapp.screens.search.SearchScreen
+import com.oak.readerapp.screens.stats.StatsScreen
 
 
 @Composable
@@ -28,6 +29,10 @@ fun ReaderNavigation() {
 
         composable(ReaderScreens.LoginScreen.name) {
             LoginScreen(navController = navController)
+        }
+
+        composable(ReaderScreens.ReaderStatsScreen.name) {
+            StatsScreen(navController = navController)
         }
     }
 }
