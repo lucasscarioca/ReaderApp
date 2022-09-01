@@ -40,10 +40,12 @@ import com.oak.readerapp.navigation.ReaderScreens
 fun HomeScreen(navController: NavController) {
     Scaffold(
         topBar = {
-            ReaderAppBar(title = "ReaderApp", showProfile = false, navController = navController)
+            ReaderAppBar(title = "ReaderApp", navController = navController)
         },
         floatingActionButton = {
-            FABContent{}
+            FABContent{
+                navController.navigate(ReaderScreens.SearchScreen.name)
+            }
         }
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {
