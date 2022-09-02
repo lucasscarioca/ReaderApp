@@ -89,7 +89,8 @@ fun InputField(
             .padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
             .fillMaxWidth(),
         enabled = enabled,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction)
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
+        keyboardActions = onAction
     )
 
 }

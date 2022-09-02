@@ -1,12 +1,14 @@
 package com.oak.readerapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.oak.readerapp.screens.SplashScreen
 import com.oak.readerapp.screens.home.HomeScreen
 import com.oak.readerapp.screens.login.LoginScreen
+import com.oak.readerapp.screens.search.BookSearchViewModel
 import com.oak.readerapp.screens.search.SearchScreen
 import com.oak.readerapp.screens.stats.StatsScreen
 
@@ -24,7 +26,8 @@ fun ReaderNavigation() {
         }
 
         composable(ReaderScreens.SearchScreen.name) {
-            SearchScreen(navController = navController)
+            val viewModel = hiltViewModel<BookSearchViewModel>()
+            SearchScreen(navController = navController, viewModel)
         }
 
         composable(ReaderScreens.LoginScreen.name) {
