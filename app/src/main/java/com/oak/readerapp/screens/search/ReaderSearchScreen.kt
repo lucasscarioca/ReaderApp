@@ -42,7 +42,7 @@ fun SearchScreen(navController: NavController, viewModel: BookSearchViewModel = 
         ) { navController.navigate(ReaderScreens.ReaderHomeScreen.name) }
     }) {
         Surface {
-            Column {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 SearchForm(modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)) {query ->
@@ -74,7 +74,9 @@ fun BookList(navController: NavController, viewModel: BookSearchViewModel = hilt
 fun BookRow(book: Item, navController: NavController) {
     Card(
         modifier = Modifier
-            .clickable { }
+            .clickable {
+                navController.navigate(ReaderScreens.DetailScreen.name + "/${book.id}")
+            }
             .fillMaxWidth()
             .height(100.dp)
             .padding(3.dp),
@@ -97,7 +99,7 @@ fun BookRow(book: Item, navController: NavController) {
                 Text(text = book.volumeInfo.title, overflow = TextOverflow.Ellipsis)
 
                 Text(
-                    text = "Author: ${book.volumeInfo.authors.joinToString(", ").ifEmpty { "N/A" }}",
+                    text = "Author: ${if (book.volumeInfo.authors.isNullOrEmpty()) "N/A" else book.volumeInfo.authors.joinToString(", ")}",
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption
@@ -111,7 +113,7 @@ fun BookRow(book: Item, navController: NavController) {
                 )
 
                 Text(
-                    text = book.volumeInfo.categories.joinToString(", "),
+                    text = if (book.volumeInfo.categories.isNullOrEmpty()) "N/A" else book.volumeInfo.categories.joinToString(", "),
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption

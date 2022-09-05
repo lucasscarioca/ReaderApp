@@ -1,13 +1,11 @@
 package com.oak.readerapp.screens.search
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oak.readerapp.data.DataOrException
 import com.oak.readerapp.data.Resource
 import com.oak.readerapp.model.Item
 import com.oak.readerapp.repositories.BookRepository
@@ -27,7 +25,7 @@ class BookSearchViewModel @Inject constructor(private val repository: BookReposi
     }
 
     private fun loadBooks() {
-        searchBooks("android")
+        searchBooks("flutter")
     }
 
     fun searchBooks(query: String) {
