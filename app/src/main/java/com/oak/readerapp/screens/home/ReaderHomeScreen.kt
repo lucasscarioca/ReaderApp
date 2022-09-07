@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.auth.FirebaseAuth
@@ -37,7 +38,7 @@ import com.oak.readerapp.navigation.ReaderScreens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, viewModel: HomeScreenViewModel = hiltViewModel()) {
     Scaffold(
         topBar = {
             ReaderAppBar(title = "ReaderApp", navController = navController)
@@ -49,21 +50,22 @@ fun HomeScreen(navController: NavController) {
         }
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {
-            HomeContent(navController = navController)
+            HomeContent(navController = navController, viewModel)
         }
     }
 }
 
 @Composable
-fun HomeContent(navController: NavController) {
+fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel) {
 
-    val listOfBooks = listOf(
-        MBook(id = "dasfsa", title = "Hello Again", authors = "All of us", notes = null),
-        MBook(id = "dasfsa", title = "Hello There", authors = "hehe", notes = null),
-        MBook(id = "dasfsa", title = "Obiwan Kenobi", authors = "xD", notes = null),
-        MBook(id = "dasfsa", title = "Hi Friend", authors = "teste", notes = null),
-        MBook(id = "dasfsa", title = "Hola que tal", authors = "lalala", notes = null),
-    )
+    var listOfBooks = emptyList<MBook>()
+    val currentUser = FirebaseAuth.getInstance().currentUser
+
+    if (!viewModel.data.value.data.isNullOrEmpty()) {
+        listOfBooks = viewModel.data.value.data!!.toList()!!.filter { mBook ->
+            mBook.userId == currentUser?.uid.toString()
+        }
+    }
 
     val email = FirebaseAuth.getInstance().currentUser?.email
     val currentUserName = if (!email.isNullOrEmpty())
@@ -103,7 +105,7 @@ fun HomeContent(navController: NavController) {
             }
         }
 
-        ReadingRightNowArea(books = listOf(), navController = navController)
+        ReadingRightNowArea(listOfBooks = listOf(), navController = navController)
 
         TitleSection(label = "Reading List")
 
@@ -113,28 +115,59 @@ fun HomeContent(navController: NavController) {
 
 @Composable
 fun BookListArea(listOfBooks: List<MBook>, navController: NavController) {
-    HorizontalScrollableComponent(listOfBooks) {
-        //Todo: on card clicked navigate to details
+    val addedBooks = listOfBooks.filter { mBook ->
+        mBook.startedReading == null && mBook.finishedReading == null
+    }
+
+    HorizontalScrollableComponent(addedBooks) {
+        navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
     }
 }
 
 @Composable
-fun HorizontalScrollableComponent(listOfBooks: List<MBook>, onCardPressed: (String) -> Unit) {
+fun HorizontalScrollableComponent(
+    listOfBooks: List<MBook>,
+    viewModel: HomeScreenViewModel = hiltViewModel(),
+    onCardPressed: (String) -> Unit
+) {
     val scrollState = rememberScrollState()
 
     Row(modifier = Modifier
         .fillMaxWidth()
         .heightIn(280.dp)
         .horizontalScroll(scrollState)) {
-        for (book in listOfBooks) {
-            ListCard(book) {
-                onCardPressed(it)
+        if (viewModel.data.value.loading == true) {
+            LinearProgressIndicator()
+        }else {
+            if (listOfBooks.isNullOrEmpty()) {
+                Surface(modifier = Modifier.padding(23.dp)) {
+                    Text(
+                        text = "No books found. Add a Book",
+                        style = TextStyle(
+                            color = Color.Red.copy(alpha = 0.4f),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp
+                        )
+                    )
+                }
+            } else {
+                for (book in listOfBooks) {
+                    ListCard(book) {
+                        onCardPressed(book.googleBookId.toString())
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun ReadingRightNowArea(books: List<MBook>, navController: NavController) {
-    ListCard()
+fun ReadingRightNowArea(listOfBooks: List<MBook>, navController: NavController) {
+    val readingNowList = listOfBooks.filter { mBook ->
+        mBook.startedReading != null && mBook.finishedReading == null
+    }
+
+    HorizontalScrollableComponent(listOfBooks = readingNowList) {
+        navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
+    }
 }

@@ -1,7 +1,9 @@
 package com.oak.readerapp.di
 
+import com.google.firebase.firestore.FirebaseFirestore
 import com.oak.readerapp.network.BooksApi
 import com.oak.readerapp.repositories.BookRepository
+import com.oak.readerapp.repositories.FireRepository
 import com.oak.readerapp.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -19,6 +21,10 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideFireBookRepository() = FireRepository(queryBook = FirebaseFirestore.getInstance().collection("books"))
+
+    @Singleton
+    @Provides
     fun provideBookRepository(api: BooksApi) = BookRepository(api)
 
     @Singleton
@@ -30,5 +36,4 @@ object AppModule {
             .build()
             .create(BooksApi::class.java)
     }
-
 }

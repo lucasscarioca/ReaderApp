@@ -10,10 +10,12 @@ import androidx.navigation.navArgument
 import com.oak.readerapp.screens.SplashScreen
 import com.oak.readerapp.screens.details.BookDetailsScreen
 import com.oak.readerapp.screens.home.HomeScreen
+import com.oak.readerapp.screens.home.HomeScreenViewModel
 import com.oak.readerapp.screens.login.LoginScreen
 import com.oak.readerapp.screens.search.BookSearchViewModel
 import com.oak.readerapp.screens.search.SearchScreen
 import com.oak.readerapp.screens.stats.StatsScreen
+import com.oak.readerapp.screens.update.UpdateScreen
 
 
 @Composable
@@ -25,7 +27,8 @@ fun ReaderNavigation() {
         }
 
         composable(ReaderScreens.ReaderHomeScreen.name) {
-            HomeScreen(navController = navController)
+            val homeViewModel = hiltViewModel<HomeScreenViewModel>()
+            HomeScreen(navController = navController, viewModel = homeViewModel)
         }
 
         composable(ReaderScreens.SearchScreen.name) {
@@ -46,6 +49,14 @@ fun ReaderNavigation() {
         })) { backStackEntry ->
             backStackEntry.arguments?.getString("bookId").let {
                 BookDetailsScreen(navController = navController, bookId = it.toString())
+            }
+        }
+
+        composable(ReaderScreens.UpdateScreen.name + "/{bookId}", arguments = listOf(navArgument("bookId"){
+            type = NavType.StringType
+        })) { backStackEntry ->
+            backStackEntry.arguments?.getString("bookId").let {
+                UpdateScreen(navController = navController, bookId = it.toString())
             }
         }
     }
