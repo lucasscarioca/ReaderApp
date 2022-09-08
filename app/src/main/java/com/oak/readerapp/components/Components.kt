@@ -294,11 +294,14 @@ fun ListCard(
             )
 
         }
+
+        val isStartedReading = remember { mutableStateOf(false) }
         Row(
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.Bottom
         ) {
-            RoundedButton(label = "Reading", radius = 70)
+            isStartedReading.value = book.startedReading != null
+            RoundedButton(label = if (isStartedReading.value) "Reading" else "Unread", radius = 70)
         }
     }
 }

@@ -105,7 +105,7 @@ fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel) {
             }
         }
 
-        ReadingRightNowArea(listOfBooks = listOf(), navController = navController)
+        ReadingRightNowArea(listOfBooks = listOfBooks, navController = navController)
 
         TitleSection(label = "Reading List")
 
