@@ -10,7 +10,7 @@ After creating your account and logging in you can search for books using the go
 - View stats of how many books you're reading versus how many you've read and their ratings
 
 ### Demo 📱
-<img src="/others/demo.gif" width=100/>     
+<img src="/others/demo.gif" alt= "app demonstration gif" style="height: 500px; width: 260px;"/>     
 
 ## Built With 🛠️
 - [Kotlin](https://kotlinlang.org/) - Official programming language for Android development.
