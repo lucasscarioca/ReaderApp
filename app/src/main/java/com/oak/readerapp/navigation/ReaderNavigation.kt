@@ -41,7 +41,8 @@ fun ReaderNavigation() {
         }
 
         composable(ReaderScreens.ReaderStatsScreen.name) {
-            StatsScreen(navController = navController)
+            val homeViewModel = hiltViewModel<HomeScreenViewModel>()
+            StatsScreen(navController = navController, viewModel = homeViewModel)
         }
 
         composable(ReaderScreens.DetailScreen.name + "/{bookId}", arguments = listOf(navArgument("bookId"){

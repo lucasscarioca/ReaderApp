@@ -171,7 +171,7 @@ fun ReaderAppBar(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (showProfile) {
                     Icon(
-                        imageVector = Icons.Default.Favorite,
+                        imageVector = Icons.Default.MenuBook,
                         contentDescription = "Logo Icon",
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp))
@@ -271,13 +271,7 @@ fun ListCard(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Icon(
-                        imageVector = Icons.Rounded.FavoriteBorder,
-                        contentDescription = "Fav Icon",
-                        modifier = Modifier.padding(bottom = 1.dp)
-                    )
-
-                    BookRating(score = 3.5)
+                    BookRating(score = ((if (book.rating == null) 0 else book.rating) as Double))
                 }
             }
             Text(

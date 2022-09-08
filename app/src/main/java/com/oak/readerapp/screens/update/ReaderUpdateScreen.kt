@@ -135,7 +135,9 @@ fun ShowSimpleForm(book: MBook, navController: NavHostController) {
         }
         Spacer(modifier = Modifier.height(4.dp))
         TextButton(
-            onClick = { isFinishedReading.value = true },
+            onClick = {
+                isFinishedReading.value = book.startedReading != null
+            },
             enabled = book.finishedReading == null
         ) {
             if (book.finishedReading == null) {
